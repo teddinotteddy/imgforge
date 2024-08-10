@@ -25,6 +25,7 @@ async function query(data) {
 export async function generateImage(formData) {
   const cookieStore = cookies();
   let userId = cookieStore.get("user_id")?.value;
+  let prompt = formData.get("prompt");
 
   if (!userId) {
     userId = uuidv4();
@@ -34,6 +35,9 @@ export async function generateImage(formData) {
     });
   }
 
+  const image = await query({ inputs: prompt });
+  const filename = `${uuidv4()}.jpg`;
+
   const metadata = {
     prompt: prompt,
   };
@@ -41,9 +45,6 @@ export async function generateImage(formData) {
   const imageMetadata = new Blob([image, metadataString], {
     type: image.type,
   });
-
-  const image = await query({ inputs: formData.get("prompt") });
-  const filename = `${uuidv4()}.jpg`;
 
   const { url } = await put(filename, imageMetadata, {
     access: "public",
