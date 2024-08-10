@@ -34,10 +34,18 @@ export async function generateImage(formData) {
     });
   }
 
+  const metadata = {
+    prompt: prompt,
+  };
+  const metadataString = JSON.stringify(metadata);
+  const imageMetadata = new Blob([image, metadataString], {
+    type: image.type,
+  });
+
   const image = await query({ inputs: formData.get("prompt") });
   const filename = `${uuidv4()}.jpg`;
 
-  const { url } = await put(filename, image, {
+  const { url } = await put(filename, imageMetadata, {
     access: "public",
     token: process.env.BLOB_READ_WRITE_TOKEN,
   });
