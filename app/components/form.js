@@ -54,6 +54,7 @@ export default function Form() {
                   alt="Generated image"
                   width={500}
                   height={500}
+                  loading="eager"
                 />
                 <div className="absolute top-2 right-2">
                   <Download url={imageUrl} />

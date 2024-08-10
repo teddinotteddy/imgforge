@@ -41,6 +41,7 @@ export default async function Images() {
                     alt="Previous image"
                     width={125}
                     height={125}
+                    loading="eager"
                   />
                   <div className="absolute top-0 right-0 p-2">
                     <Download url={imageUrl} />
